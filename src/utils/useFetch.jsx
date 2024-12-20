@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useEffect } from "react";
 
 
@@ -27,7 +27,15 @@ const useFetch = (url) => {
         fetchRecipes()
     }, [url])
 
-    return { recipe, isLoading, error }
+    const memoizedProps = useMemo(() => {
+    return {
+      recipe,
+      error,
+      isLoading,
+    };
+  }, [recipe, error, isLoading]);
+
+    return memoizedProps
 }
 
 export default useFetch

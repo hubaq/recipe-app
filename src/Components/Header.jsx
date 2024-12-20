@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { NavLink } from "react-router-dom"
 
-function Header() {
+function Header({headerRef}) {
   return (
-    <header className="w-full p-5 bg-White border-b-2 border-mainColor font-Montserrat flex items-center justify-center">
+    <header ref={headerRef} className="w-full p-5 bg-White border-b-2 border-mainColor font-Montserrat flex items-center justify-center">
       <div className=" w-full md:w-[85%] flex justify-between items-center">
         <div className="flex items-center gap-3">
           <img src="nuxt.svg" alt="" width={'50px'}/>

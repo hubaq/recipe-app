@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 
-function Hero() {
+function Hero({heroRef}) {
   return (
-    <section className="bg-mainColor w-full flex items-center justify-center py-16 ">
+    <section ref={heroRef} id="hero" className="bg-mainColor w-full flex items-center justify-center py-16 ">
       <div className=" w-full md:w-[85%] pt-24 flex items-center md:items-start md:flex-row flex-col-reverse justify-between">
         <div className="flex flex-col gap-4 items-center md:items-start mt-14">
           <h1 className="text-4xl max-w-[280px] text-center md:text-start md:max-w-[420px] text-tertiary leading-10">Master the Kitchen with Ease: Unleash Your Inner Chef Today!</h1>

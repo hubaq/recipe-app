@@ -6,7 +6,7 @@ function Recipe() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [recipe, setRecipe] = useState(null); // Initially null
+  const [recipe, setRecipe] = useState(null); 
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,6 @@ function Recipe() {
         setIsLoading(true);
         const res = await fetch(`https://dummyjson.com/recipes/${id}`);
         
-        // Check for invalid ID (404 or invalid response)
         if (!res.ok) {
           throw new Error("Recipe not found");
         }
@@ -24,15 +23,14 @@ function Recipe() {
         setRecipe(data);
       } catch (error) {
         console.error(error.message);
-        navigate('*'); // Redirect to NotFound page
+        navigate('*'); 
       } finally {
         setIsLoading(false);
       }
     }
 
-    // Check if the ID is numeric before fetching
     if (isNaN(Number(id))) {
-      navigate('*'); // Redirect to NotFound page
+      navigate('*'); 
     } else {
       fetchRecipe();
     }
@@ -49,7 +47,7 @@ function Recipe() {
   };
 
   if (isLoading) return <Loader />;
-  if (!recipe) return null; // Avoid rendering until recipe data is loaded
+  if (!recipe) return null; 
 
   return (
     <main className="w-full flex items-center justify-center p-6">

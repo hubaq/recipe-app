@@ -3,20 +3,19 @@
 
 import { NavLink } from "react-router-dom"
 import Loader from "./Loader"
-import { useState } from "react"
+import {   useState } from "react"
+
 
 function Discover({ recipe, error, isLoading }) {
   const [visibleCount, setVisibleCount] = useState(12)
 
 
-  function handleLoadMore() {
-    if (visibleCount < recipe.length) {
-      setVisibleCount(prev => prev + 18)
+  const handleLoadMore = () => {
+    setVisibleCount(prev => Math.min(prev + 18, recipe.length));
+  }
 
-    }
-    else if (visibleCount === recipe.length) {
-      setVisibleCount(prev => prev - 18)
-    }
+  const handleLoadLess = () => {
+    setVisibleCount(prev => Math.max(prev - 18, 12));
   }
   return (
     <section className=" w-full flex items-center justify-center py-16">
@@ -54,10 +53,20 @@ function Discover({ recipe, error, isLoading }) {
             ))
           ) : <h1>No Recipe Available Now</h1>}
         </div>
-        {recipe.length > 0 && <button className="text-White bg-secondary self-center py-2 px-4" onClick={handleLoadMore}>{visibleCount < 13 ? "Load more" : 'Load less'}</button>}
+        {visibleCount < recipe.length && (
+          <button className="text-White self-center bg-secondary py-2 px-4" onClick={handleLoadMore}>
+            Load more
+          </button>
+        )}
+        {visibleCount > 12 && (
+          <button className="text-White self-center bg-secondary py-2 px-4" onClick={handleLoadLess}>
+            Load less
+          </button>
+        )}
       </div>
     </section>
   )
 }
+
 
 export default Discover
