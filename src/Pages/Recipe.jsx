@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loader from '../Components/Loader';
 
 function Recipe() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [recipe, setRecipe] = useState({});
+  const [recipe, setRecipe] = useState(null); // Initially null
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
@@ -13,16 +14,29 @@ function Recipe() {
       try {
         setIsLoading(true);
         const res = await fetch(`https://dummyjson.com/recipes/${id}`);
+        
+        // Check for invalid ID (404 or invalid response)
+        if (!res.ok) {
+          throw new Error("Recipe not found");
+        }
+
         const data = await res.json();
         setRecipe(data);
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        navigate('*'); // Redirect to NotFound page
       } finally {
         setIsLoading(false);
       }
     }
-    fetchRecipe();
-  }, [id]);
+
+    // Check if the ID is numeric before fetching
+    if (isNaN(Number(id))) {
+      navigate('*'); // Redirect to NotFound page
+    } else {
+      fetchRecipe();
+    }
+  }, [id, navigate]);
 
   const handleCheckboxChange = (index) => {
     setCheckedItems((prevCheckedItems) => {
@@ -35,28 +49,29 @@ function Recipe() {
   };
 
   if (isLoading) return <Loader />;
+  if (!recipe) return null; // Avoid rendering until recipe data is loaded
 
   return (
     <main className="w-full flex items-center justify-center p-6">
       <div className=" w-full md:w-[60%] flex flex-col items-start gap-4">
         <div className="flex flex-col items-start gap-4">
-          <h1 className="text-4xl text-tertiary">{recipe?.name}</h1>
+          <h1 className="text-4xl text-tertiary">{recipe.name}</h1>
           <div className="flex items-center justify-start gap-5">
             <div className="flex items-center gap-3">
               <img src='/public/mdi--clock-time-eight-outline 1.svg' alt="" />
-              <p>{recipe?.cookTimeMinutes}</p>
+              <p>{recipe.cookTimeMinutes}</p>
             </div>
             <div className="flex items-center gap-3">
               <img src='/public/mdi--fire.svg' alt="" />
-              <p>{recipe?.caloriesPerServing}</p>
+              <p>{recipe.caloriesPerServing}</p>
             </div>
             <div className="flex items-center gap-3">
               <img src='/public/mdi--star.svg' alt="" />
-              <p>{recipe?.rating}</p>
+              <p>{recipe.rating}</p>
             </div>
           </div>
         </div>
-        <img src={recipe?.image} className="w-full h-96 object-cover" alt="" />
+        <img src={recipe.image} className="w-full h-96 object-cover" alt="" />
         <h2 className="text-2xl text-tertiary mt-7">Ingredients</h2>
         <div className="grid md:grid-cols-2 gap-4 w-[40rem]">
           {recipe.ingredients?.map((item, i) => (

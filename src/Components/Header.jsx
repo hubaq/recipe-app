@@ -8,7 +8,7 @@ function Header() {
           <img src="nuxt.svg" alt="" width={'50px'}/>
           <h1 className="text-2xl hidden md:block text-tertiary font-medium">Nuxtcipes</h1>
        </div>
-        <NavLink to='/recipes'>
+        <NavLink to='/'>
            <h1 className="text-xl cursor-pointer hover:text-secondary transition-colors duration-150 text-tertiary font-medium">Home</h1>
        </NavLink>
       </div>
