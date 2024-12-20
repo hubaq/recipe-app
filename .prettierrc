@@ -1,0 +1,14 @@
+{
+    "plugins": [
+        "prettier-plugin-tailwindcss"
+    ],
+    "tailwindStylesheet": "./resources/css/app.css",
+    "tailwindConfig": "./styles/tailwind.config.js",
+    "tailwindAttributes": [
+        "myClassList"
+    ],
+    "tailwindFunctions": [
+        "clsx"
+    ],
+    "tailwindPreserveWhitespace": true
+}
